@@ -40,20 +40,13 @@ def insert_element(root, value):
     return root
 
 # Функция для отображения бинарного дерева в консоли
-def print_tree(root, level=0, is_left=False):
+def print_tree(root, level=0, prefix=''):
     if root is None:
         return
     
-    indent = '    ' * level
-    arrow = '└── ' if is_left else '├── '
-    
-    print(f"{indent}{arrow}{root.value}")
-    
-    if root.left is not None:
-        print_tree(root.left, level + 1, is_left=True)
-    
-    if root.right is not None:
-        print_tree(root.right, level + 1, is_left=False)
+    print_tree(root.right, level + 1, '        |' * level + '--------')
+    print(f"{prefix}{root.value}")
+    print_tree(root.left, level + 1, '        |' * level + '--------')
 
 # Ввод параметров генератора случайных чисел
 k = int(input("Введите параметр формы распределения Эрланга (целое число): "))
