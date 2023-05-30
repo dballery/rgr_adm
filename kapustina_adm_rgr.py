@@ -11,15 +11,13 @@ class Node:
 def generate_binary_tree(num_elements):
     if num_elements <= 0:
         return None
+    
     root_value = random.randint(1, 100)
     root = Node(root_value)
     num_elements -= 1
+    
     if num_elements > 0:
-        # Распределение параметров для генерации левого и правого поддеревьев
-        k = random.randint(1, 10)  # Параметр формы распределения Эрланга
-        scale = random.uniform(0.1, 1.0)  # Параметр масштаба распределения Эрланга
-        
-        # Генерация случайного количества элементов для левого поддерева
+        # Генерация случайного количества элементов для левого и правого поддеревьев
         num_left_elements = random.randint(0, num_elements)
         num_right_elements = num_elements - num_left_elements
         
@@ -41,6 +39,22 @@ def insert_element(root, value):
     
     return root
 
+# Функция для отображения бинарного дерева в консоли
+def print_tree(root, level=0, is_left=False):
+    if root is None:
+        return
+    
+    indent = '    ' * level
+    arrow = '└── ' if is_left else '├── '
+    
+    print(f"{indent}{arrow}{root.value}")
+    
+    if root.left is not None:
+        print_tree(root.left, level + 1, is_left=True)
+    
+    if root.right is not None:
+        print_tree(root.right, level + 1, is_left=False)
+
 # Ввод параметров генератора случайных чисел
 k = int(input("Введите параметр формы распределения Эрланга (целое число): "))
 scale = float(input("Введите параметр масштаба распределения Эрланга (вещественное число от 0.1 до 1.0): "))
@@ -52,12 +66,6 @@ tree = generate_binary_tree(num_elements)
 
 # Вывод сгенерированного дерева
 print("Сгенерированное бинарное дерево:")
-def print_tree(root):
-    if root is None:
-        return
-    print_tree(root.left)
-    print(root.value)
-    print_tree(root.right)
 print_tree(tree)
 
 # Вставка нового элемента
