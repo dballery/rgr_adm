@@ -1,78 +1,62 @@
-import random
+import numpy as np
 
-# Класс узла бинарного дерева
 class Node:
     def __init__(self, value):
         self.value = value
         self.left = None
         self.right = None
 
-# Функция для генерации случайного бинарного дерева
-def generate_binary_tree(num_elements):
-    if num_elements <= 0:
-        return None
+class BinarySearchTree:
+    def __init__(self):
+        self.root = None
     
-    root_value = random.randint(1, 100)
-    root = Node(root_value)
-    num_elements -= 1
-    
-    if num_elements > 0:
-        # Генерация случайного количества элементов для левого и правого поддеревьев
-        num_left_elements = random.randint(0, num_elements)
-        num_right_elements = num_elements - num_left_elements
-        
-        # Рекурсивная генерация левого и правого поддеревьев
-        root.left = generate_binary_tree(num_left_elements)
-        root.right = generate_binary_tree(num_right_elements)
-    
-    return root
-
-# Функция для вставки элемента в бинарное дерево
-def insert_element(root, value):
-    if root is None:
-        return Node(value)
-    
-    if value < root.value:
-        root.left = insert_element(root.left, value)
-    elif value > root.value:
-        root.right = insert_element(root.right, value)
-    
-    return root
-
-# Функция для отображения бинарного дерева в консоли
-def print_tree(root, prefix="", is_left=False, target=None):
-    if root:
-        print(prefix, end="")
-        print("├── " if is_left else "└── ", end="")
-
-        if root.value == target:
-            print(f"*{root.value}*", end="")  # Выделяем найденный элемент
+    def insert(self, value):
+        if self.root is None:
+            self.root = Node(value)
         else:
-            print(root.value, end="")
+            self._insert_recursive(self.root, value)
+    
+    def _insert_recursive(self, node, value):
+        if value < node.value:
+            if node.left is None:
+                node.left = Node(value)
+            else:
+                self._insert_recursive(node.left, value)
+        else:
+            if node.right is None:
+                node.right = Node(value)
+            else:
+                self._insert_recursive(node.right, value)
+    
+    def print_tree(self):
+        if self.root is not None:
+            self._print_recursive(self.root, "")
+    
+    def _print_recursive(self, node, prefix):
+        if node is not None:
+            print(prefix + "|--", node.value)
+            self._print_recursive(node.left, prefix + "|   ")
+            self._print_recursive(node.right, prefix + "|   ")
 
-        print()
+# Функция для генерации случайных чисел с распределением Эрланга
+def generate_erlang_numbers(shape, scale, count):
+    return np.random.gamma(shape, scale, count)
 
-        print_tree(root.left, prefix + ("│   " if is_left else "    "), True, target)
-        print_tree(root.right, prefix + "    ", False, target)
-
+# Создание экземпляра класса BinarySearchTree
+bst = BinarySearchTree()
 
 # Ввод параметров генератора случайных чисел
-k = int(input("Введите параметр формы распределения Эрланга (целое число): "))
-scale = float(input("Введите параметр масштаба распределения Эрланга (вещественное число от 0.1 до 1.0): "))
-num_elements = int(input("Введите количество элементов в бинарном дереве (не менее 12): "))
+shape = int(input("Введите параметр формы распределения Эрланга: "))
+scale = int(input("Введите параметр масштаба распределения Эрланга: "))
+count = max(12, int(input("Введите количество элементов в бинарном дереве (минимум 12): ")))
 
-# Генерация случайного бинарного дерева
-random.seed()
-tree = generate_binary_tree(num_elements)
+# Генерация случайных чисел с распределением Эрланга
+numbers = generate_erlang_numbers(shape, scale, count)
 
-# Вывод сгенерированного дерева
+# Вставка элементов в бинарное дерево
+for num in numbers:
+    bst.insert(num)
+
+# Вывод полученного бинарного дерева
 print("Сгенерированное бинарное дерево:")
-print_tree(tree)
-
-# Вставка нового элемента
-value_to_insert = int(input("Введите элемент для вставки в дерево: "))
-tree = insert_element(tree, value_to_insert)
-
-# Вывод дерева после вставки элемента
-print("Дерево после вставки элемента:")
-print_tree(tree)
+bst.print_tree()
