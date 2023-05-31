@@ -1,21 +1,25 @@
 import numpy as np
 
+# Определение класса Node для узлов бинарного дерева
 class Node:
     def __init__(self, value):
         self.value = value
         self.left = None
         self.right = None
 
+# Определение класса BinarySearchTree для бинарного дерева поиска
 class BinarySearchTree:
     def __init__(self):
         self.root = None
     
+    # Метод вставки элемента в бинарное дерево
     def insert(self, value):
         if self.root is None:
             self.root = Node(value)
         else:
             self._insert_recursive(self.root, value)
     
+    # Рекурсивный метод вставки элемента в бинарное дерево
     def _insert_recursive(self, node, value):
         if value < node.value:
             if node.left is None:
@@ -28,10 +32,12 @@ class BinarySearchTree:
             else:
                 self._insert_recursive(node.right, value)
     
+    # Метод для вывода бинарного дерева
     def print_tree(self):
         if self.root is not None:
             self._print_recursive(self.root, "")
     
+    # Рекурсивный метод для вывода бинарного дерева
     def _print_recursive(self, node, prefix):
         if node is not None:
             print(prefix + "|--", node.value)
@@ -73,4 +79,3 @@ insert_element(bst)
 # Вывод обновленного дерева после вставки элемента
 print("Обновленное бинарное дерево:")
 bst.print_tree()
-
