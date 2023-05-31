@@ -42,6 +42,12 @@ class BinarySearchTree:
 def generate_erlang_numbers(shape, scale, count):
     return np.random.gamma(shape, scale, count)
 
+# Функция для вставки элемента в бинарное дерево поиска
+def insert_element(bst):
+    value = float(input("Введите значение элемента для вставки: "))
+    bst.insert(value)
+    print("Элемент успешно вставлен!")
+
 # Создание экземпляра класса BinarySearchTree
 bst = BinarySearchTree()
 
@@ -60,3 +66,11 @@ for num in numbers:
 # Вывод полученного бинарного дерева
 print("Сгенерированное бинарное дерево:")
 bst.print_tree()
+
+# Вставка дополнительного элемента в бинарное дерево
+insert_element(bst)
+
+# Вывод обновленного дерева после вставки элемента
+print("Обновленное бинарное дерево:")
+bst.print_tree()
+
