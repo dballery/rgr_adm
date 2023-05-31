@@ -1,5 +1,5 @@
-import random
-import math
+import random  # Импорт модуля для генерации случайных чисел
+import math  # Импорт модуля для математических операций
 
 class Node:
     def __init__(self, value):
@@ -45,7 +45,7 @@ def erlang_distribution(shape, scale):
     uniform_numbers = [random.random() for _ in range(shape)]
     
     # Вычисление суммы логарифмов случайных чисел
-    log_sum = sum([-math.log(num) for num in uniform_numbers])
+    log_sum = sum([math.log(num) for num in uniform_numbers])
     
     # Применение масштабирования
     result = -scale * log_sum
