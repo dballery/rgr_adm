@@ -39,12 +39,18 @@ class BinarySearchTree:
             self._print_recursive(node.left, prefix + "|   ")
             self._print_recursive(node.right, prefix + "|   ")
 
-# Реализация распределения Эрланга
+# Реализация распределения Эрланга с использованием метода сверток
 def erlang_distribution(shape, scale):
-    result = 1.0
-    for _ in range(shape):
-        result *= random.random()
-    return -scale * math.log(result)
+    # Генерация n случайных чисел из равномерного распределения от 0 до 1
+    uniform_numbers = [random.random() for _ in range(shape)]
+    
+    # Вычисление суммы логарифмов случайных чисел
+    log_sum = sum([-math.log(num) for num in uniform_numbers])
+    
+    # Применение масштабирования
+    result = -scale * log_sum
+    
+    return result
 
 # Функция для генерации случайных чисел с распределением Эрланга
 def generate_erlang_numbers(shape, scale, count):
